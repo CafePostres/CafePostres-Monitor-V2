@@ -6,7 +6,28 @@ body .wrap>.toolbar,body .wrap>.tabs,body .wrap>.headrow,body #orders,body #over
 body .wrap>.auth{display:block;max-width:760px;margin:25px auto}
 body.v3-live .wrap>.toolbar{display:flex}body.v3-live .wrap>.tabs{display:flex}body.v3-live .wrap>.headrow{display:flex}body.v3-live #orders{display:grid}
 body.v3-live .wrap>.auth{display:none}body.v3-live #overlay.open{display:flex}
-</style></head><body class="atelier"><header class="top"><div class="brand">Gaby’s · CafePostres<small>GOURMET &amp; ARTESANAL · MONITOR V2</small></div><span class="tag" id="connection">Verificando autorización…</span></header><main class="wrap"><div class="panel toolbar"><div class="field"><label for="theme">Tema visual</label><select id="theme"><option value="atelier">Atelier Gourmet</option><option value="pastel">Pastelería Contemporánea</option><option value="editorial">Café Editorial</option><option value="moderno">Dulce Moderno</option></select></div><div class="field"><label for="background">Fondo</label><select id="background"><option value="1">Diseño 1</option><option value="2">Diseño 2</option><option value="3">Diseño 3</option></select></div><div class="field"><label for="day">Fecha</label><input type="date" id="day"></div><button class="btn alt" id="today">Hoy</button><button class="btn" id="refresh">Actualizar</button></div><div class="notice" id="notice">Esperando autorización segura. El lector Android V3 aún requiere integración.</div><div class="tabs"><button id="pendingTab" class="tab active">Pendientes <span id="pc">(0)</span></button><button id="deliveredTab" class="tab">Entregados <span id="dc">(0)</span></button></div><div class="headrow"><h2 id="heading">Pedidos pendientes</h2></div><section class="panel auth" id="authPanel"><h3>Autorización del monitor · QR de un solo uso</h3><p class="muted">Escanea este QR temporal desde CafePostres Android. La autorización Android V3 todavía requiere integración; no se habilitarán pedidos reales hasta completarla.</p><div class="qr-statusline"><strong id="qrStep">Esperando nuevo desafío</strong><span id="qrClock">02:00</span></div><div class="qrbox" id="qrBox">Pulsa «Generar desafío» para preparar un código temporal. El QR se genera localmente con la biblioteca recuperada del Monitor anterior, sin servicios externos. La autorización Android V3 aún está pendiente.</div><p class="muted" id="authStatus">Sin desafío activo.</p><button class="btn" id="makeChallenge">Generar / renovar QR</button> <button class="btn alt" id="copyPayload" disabled>Copiar texto QR</button></section><div id="orders" class="grid"></div><div class="footer">CafePostres Monitor V2 · Diseño de prueba · Sin cobros ni entregas desde el iPad</div></main><div class="overlay" id="overlay"><div class="modal"><div class="modalhead"><div><h2 id="modalTitle" style="margin:0">Pedido</h2><p class="muted" id="modalSubtitle"></p></div><button class="close" id="close">Cerrar ✕</button></div><div id="modalItems"></div><p id="count" class="muted"></p><div class="progress"><div class="bar" id="bar"></div></div></div></div>
+
+/* V3: detalle ampliado, navegacion y preparacion visual completa. Compatible con Safari 9. */
+.overlay .modal{width:96vw;max-width:1400px;height:75vh;max-height:94vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 19px}
+.modalhead{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:10px;position:relative;padding-bottom:10px}
+.modalIdentity{-webkit-flex:1;flex:1;min-width:0;text-align:center}.modalIdentity h2{font-size:22px}.modalIdentity p{margin:4px 0}
+.orderNav{background:var(--soft);color:var(--ink);border:1px solid var(--accent);border-radius:9px;font-size:25px;font-weight:bold;min-width:45px;height:43px;flex-shrink:0}
+.orderNav:disabled{opacity:.28}.close{background:#c5232e;color:#fff;border-radius:9px;font-size:22px;font-weight:bold;min-width:44px;height:43px;padding:5px}
+.preparationTop{position:relative;background:var(--paper);padding:9px 4px 11px;margin-bottom:9px;border-bottom:1px solid var(--soft)}
+.preparationCaption{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;gap:12px;-webkit-align-items:center;align-items:center}
+.preparationTop .progress{height:12px;margin:8px 0 0;background:var(--soft)}
+.detailGrid{display:-ms-grid;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-bottom:10px}
+.detailGrid .item{padding:13px;border:1px solid rgba(0,0,0,.15);border-radius:12px;background:rgba(255,255,255,.46);margin:0;min-width:0;transition:background .15s}
+.detailGrid .item.done{background:#c6efd0;border:2px solid #268343;color:#153d24}
+.detailGrid .item.done .muted{color:#245b36;opacity:1}
+.itemHeader{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:space-between;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.itemHeader strong{font-size:17px}.itemHeader .qty{font-weight:bold;font-size:13px}
+.itemOptions{margin:10px 0;line-height:1.55;white-space:pre-line;overflow-wrap:break-word;word-wrap:break-word}
+.preparedUnit{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;gap:7px;border-radius:8px;background:rgba(0,0,0,.045);padding:8px 9px;cursor:pointer;font-size:13px;font-weight:bold;margin-top:6px}
+.preparedUnit.done{background:#258343;color:white}.preparedUnit input{width:20px;height:20px;accent-color:#287b41;flex-shrink:0}
+.unitGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+@media(max-width:680px){.overlay .modal{width:100%;height:90vh;padding:12px}.detailGrid{grid-template-columns:1fr}.modalIdentity h2{font-size:17px}.orderNav{min-width:35px;height:38px;font-size:20px}.close{min-width:37px;height:38px}.unitGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body class="atelier"><header class="top"><div class="brand">Gaby’s · CafePostres<small>GOURMET &amp; ARTESANAL · MONITOR V3</small></div><span class="tag" id="connection">Verificando autorización…</span></header><main class="wrap"><div class="panel toolbar"><div class="field"><label for="theme">Tema visual</label><select id="theme"><option value="atelier">Atelier Gourmet</option><option value="pastel">Pastelería Contemporánea</option><option value="editorial">Café Editorial</option><option value="moderno">Dulce Moderno</option></select></div><div class="field"><label for="background">Fondo</label><select id="background"><option value="1">Diseño 1</option><option value="2">Diseño 2</option><option value="3">Diseño 3</option></select></div><div class="field"><label for="day">Fecha</label><input type="date" id="day"></div><button class="btn alt" id="today">Hoy</button><button class="btn" id="refresh">Actualizar</button></div><div class="notice" id="notice">Esperando autorización segura.</div><div class="tabs"><button id="pendingTab" class="tab active">Pendientes <span id="pc">(0)</span></button><button id="deliveredTab" class="tab">Entregados <span id="dc">(0)</span></button></div><div class="headrow"><h2 id="heading">Pedidos pendientes</h2></div><section class="panel auth" id="authPanel"><h3>Autorización del monitor · QR de un solo uso</h3><p class="muted">Escanea este QR temporal desde CafePostres Android. El código vence en 2 minutos y se renueva solo al presionar el botón.</p><div class="qr-statusline"><strong id="qrStep">Esperando nuevo desafío</strong><span id="qrClock">02:00</span></div><div class="qrbox" id="qrBox">El QR se genera localmente, sin servicios externos.</div><p class="muted" id="authStatus">Sin desafío activo.</p><button class="btn" id="makeChallenge">Generar / renovar QR</button> <button class="btn alt" id="copyPayload" disabled>Copiar texto QR</button></section><div id="orders" class="grid"></div><div class="footer">CafePostres Monitor V3 · Sin cobros ni entregas desde el iPad</div></main><div class="overlay" id="overlay"><div class="modal"><div class="modalhead"><button class="orderNav" id="previousOrder" aria-label="Pedido anterior" title="Pedido anterior">&#10094;</button><div class="modalIdentity"><h2 id="modalTitle" style="margin:0">Pedido</h2><p class="muted" id="modalSubtitle"></p></div><button class="orderNav" id="nextOrder" aria-label="Pedido siguiente" title="Pedido siguiente">&#10095;</button><button class="close" id="close" aria-label="Cerrar detalle" title="Cerrar">&#10005;</button></div><div class="preparationTop"><div class="preparationCaption"><strong>Avance del pedido</strong><span id="count" class="muted"></span></div><div class="progress"><div class="bar" id="bar"></div></div></div><div id="modalItems" class="detailGrid"></div></div></div>
 <script>
 (function(g){var M={},C={};
 M["QR8bitByte.js"]=function(module,exports,__req){
@@ -1283,10 +1304,82 @@ function matching(){var r=range();return orders.filter(function(o){return (tab==
 function counts(){var r=range(),p=0,d=0;orders.forEach(function(o){if(r&&Number(o.created_at)>=r.todayStart&&Number(o.created_at)<r.todayEnd){if(isPending(o))p++;else d++}});text($('pc'),'('+p+')');text($('dc'),'('+d+')')}
 function render(){counts();$('pendingTab').className='tab'+(tab==='pending'?' active':'');$('deliveredTab').className='tab'+(tab==='delivered'?' active':'');text($('heading'),tab==='pending'?'Pedidos pendientes':'Pedidos entregados');var list=matching(),el=$('orders');el.innerHTML='';if(!list.length){var empty=document.createElement('div');empty.className='empty';empty.style.gridColumn='1 / -1';text(empty,tab==='pending'?'Sin pedidos pendientes para esta fecha':'Sin pedidos entregados para esta fecha');el.appendChild(empty);return}list.forEach(function(o){var btn=document.createElement('button');btn.className='order';var title=document.createElement('strong');text(title,o.customer||'Pedido');btn.appendChild(title);var sub=document.createElement('div');sub.className='sub';text(sub,fmt(o.created_at)+' · '+(Array.isArray(o.items)?o.items.length:0)+' productos');btn.appendChild(sub);var badge=document.createElement('span');badge.className='pill';text(badge,isPending(o)?'Ver preparación':'Ver detalle');btn.appendChild(badge);btn.onclick=function(){openOrder(o)};el.appendChild(btn)})}
 function optText(v){if(v===null||v===undefined||v==='')return '';if(typeof v==='string'||typeof v==='number')return String(v);if(Array.isArray(v))return v.map(optText).filter(Boolean).join(', ');if(typeof v==='object')return Object.keys(v).map(function(k){return k+': '+optText(v[k])}).join(' · ');return ''}
-function renderDetail(){if(!active)return;var o=active,items=Array.isArray(o.items)?o.items:[],el=$('modalItems'),done=0,total=0;el.innerHTML='';items.forEach(function(it,i){var box=document.createElement('div');box.className='item';var strong=document.createElement('strong');text(strong,it.productName||'Producto');box.appendChild(strong);var detail=[optText(it.variant),optText(it.options),optText(it.extras),it.notes?('Nota: '+it.notes):''].filter(Boolean).join(' · ');if(detail){var desc=document.createElement('div');desc.className='muted';desc.style.marginTop='6px';text(desc,detail);box.appendChild(desc)}var qty=Math.min(100,Math.max(0,parseInt(it.quantity,10)||0));for(var u=0;u<qty;u++){total++;var row=document.createElement('label');row.className='unit';var cb=document.createElement('input');cb.type='checkbox';cb.checked=!!marks[key(o,i,u)];if(cb.checked){done++;row.className+=' done'}cb.disabled=!isPending(o);(function(ii,uu){cb.onchange=function(){var wanted=cb.checked;marks[key(o,ii,uu)]=wanted;renderDetail();if(mode==='live'){api('PREP_SET',{orderKey:o.order_key,itemIndex:ii,unitIndex:uu,prepared:wanted},function(err){if(err){marks[key(o,ii,uu)]=!wanted;renderDetail();alert('No se pudo guardar: '+err)}})}}})(i,u);row.appendChild(cb);var name=document.createElement('span');text(name,'Unidad '+(u+1)+(cb.checked?' · Preparada':' · Pendiente'));row.appendChild(name);box.appendChild(row)}el.appendChild(box)});text($('count'),done+' de '+total+' unidades preparadas'+(mode==='demo'?' · Demostración':''));$('bar').style.width=(total?Math.round(done/total*100):0)+'%'}
-function openOrder(o){active=o;text($('modalTitle'),o.customer||'Pedido');text($('modalSubtitle'),fmt(o.created_at)+' · '+o.status);$('overlay').className='overlay open';if(mode==='live'&&isPending(o)){api('PREP_GET',{orderKey:o.order_key},function(err,res){if(err){alert('No se pudo consultar preparación: '+err);return}Object.keys(marks).forEach(function(k){if(k.indexOf(o.order_key+'|')===0)delete marks[k]});(res.marks||[]).forEach(function(m){marks[key(o,m.item_index,m.unit_index)]=!!m.prepared});renderDetail()})}renderDetail()}
+function optionLine(label,value){var v=optText(value);return v?label+': '+v:''}
+function renderDetail(){
+ if(!active)return;
+ var o=active,items=Array.isArray(o.items)?o.items:[],el=$('modalItems'),done=0,total=0;
+ el.innerHTML='';
+ items.forEach(function(it,i){
+  var box=document.createElement('div');box.className='item';
+  var qty=Math.min(100,Math.max(0,parseInt(it.quantity,10)||0)),itemDone=0;
+  var head=document.createElement('div');head.className='itemHeader';
+  var name=document.createElement('strong');text(name,it.productName||'Producto');head.appendChild(name);
+  var quantity=document.createElement('span');quantity.className='qty';text(quantity,'CANT: '+qty);head.appendChild(quantity);
+  var allPrepared=qty>0;
+  for(var x=0;x<qty;x++){if(!marks[key(o,i,x)])allPrepared=false}
+  var allLabel=document.createElement('label');allLabel.className='preparedUnit'+(allPrepared?' done':'');
+  var allCheck=document.createElement('input');allCheck.type='checkbox';allCheck.checked=allPrepared;allCheck.disabled=!isPending(o)||qty===0;
+  (function(ii,count){allCheck.onchange=function(){
+    var wanted=allCheck.checked,previous=[];
+    for(var j=0;j<count;j++){previous.push(!!marks[key(o,ii,j)]);marks[key(o,ii,j)]=wanted}
+    renderDetail();
+    if(mode==='live')for(var j=0;j<count;j++)(function(unit,was){
+      if(was===wanted)return;
+      api('PREP_SET',{orderKey:o.order_key,itemIndex:ii,unitIndex:unit,prepared:wanted},function(err){
+        if(err){marks[key(o,ii,unit)]=was;renderDetail();alert('No se pudo guardar preparación: '+err)}
+      })
+    })(j,previous[j]);
+  }})(i,qty);
+  allLabel.appendChild(allCheck);var allText=document.createElement('span');text(allText,'Preparada');allLabel.appendChild(allText);head.appendChild(allLabel);box.appendChild(head);
+  var parts=[optionLine('Sabores base',it.variant),optionLine('Opciones',it.options),optionLine('Extras',it.extras),it.notes?('Nota: '+it.notes):''].filter(Boolean);
+  if(parts.length){var desc=document.createElement('div');desc.className='itemOptions muted';text(desc,parts.join('\n'));box.appendChild(desc)}
+  var units=document.createElement('div');units.className='unitGrid';
+  for(var u=0;u<qty;u++){
+   total++;var row=document.createElement('label');row.className='preparedUnit';
+   var cb=document.createElement('input');cb.type='checkbox';cb.checked=!!marks[key(o,i,u)];
+   if(cb.checked){done++;itemDone++;row.className+=' done'}
+   cb.disabled=!isPending(o);
+   (function(ii,uu){cb.onchange=function(){var wanted=cb.checked;marks[key(o,ii,uu)]=wanted;renderDetail();if(mode==='live'){
+    api('PREP_SET',{orderKey:o.order_key,itemIndex:ii,unitIndex:uu,prepared:wanted},function(err){if(err){marks[key(o,ii,uu)]=!wanted;renderDetail();alert('No se pudo guardar: '+err)}})
+   }}})(i,u);
+   row.appendChild(cb);var label=document.createElement('span');text(label,'Unidad '+(u+1)+(cb.checked?' · Preparada':' · Preparar'));row.appendChild(label);units.appendChild(row)
+  }
+  if(qty>1)box.appendChild(units);
+  if(qty>0&&itemDone===qty)box.className+=' done';
+  el.appendChild(box)
+ });
+ text($('count'),done+' de '+total+' unidades preparadas'+(mode==='demo'?' · Demostración':''));
+ $('bar').style.width=(total?Math.round(done/total*100):0)+'%'
+}
+function navigateOrder(step){
+ if(!active)return;
+ var list=matching(),index=-1;
+ for(var i=0;i<list.length;i++){if(list[i].order_key===active.order_key){index=i;break}}
+ if(index<0)return;
+ var target=index+step;
+ if(target>=0&&target<list.length)openOrder(list[target]);
+}
+function updateOrderNav(){
+ var list=matching(),index=-1;
+ for(var i=0;i<list.length;i++){if(active&&list[i].order_key===active.order_key){index=i;break}}
+ $('previousOrder').disabled=index<=0;
+ $('nextOrder').disabled=index<0||index>=list.length-1;
+}
+function openOrder(o){
+ active=o;text($('modalTitle'),o.customer||'Pedido');text($('modalSubtitle'),fmt(o.created_at)+' · '+o.status);
+ $('overlay').className='overlay open';updateOrderNav();
+ if(mode==='live'&&isPending(o)){
+  api('PREP_GET',{orderKey:o.order_key},function(err,res){
+   if(!active||active.order_key!==o.order_key)return;
+   if(err){alert('No se pudo consultar preparación: '+err);return}
+   Object.keys(marks).forEach(function(k){if(k.indexOf(o.order_key+'|')===0)delete marks[k]});
+   (res.marks||[]).forEach(function(m){marks[key(o,m.item_index,m.unit_index)]=!!m.prepared});renderDetail()
+  })
+ }
+ renderDetail()
+}
 function api(action,extra,cb){if(!window.XMLHttpRequest){cb('Navegador incompatible');return}var x=new XMLHttpRequest();x.open('POST',ENDPOINT,true);x.timeout=15000;x.setRequestHeader('Content-Type','application/json');var pk=PUBLISHABLE_KEY;x.setRequestHeader('apikey',pk);x.setRequestHeader('Authorization','Bearer '+pk);x.onreadystatechange=function(){if(x.readyState!==4)return;var r;try{r=JSON.parse(x.responseText)}catch(e){cb('Respuesta no válida ('+x.status+')');return}if(x.status<200||x.status>=300||!r.ok)cb(r.error||('HTTP '+x.status),r);else cb(null,r)};x.onerror=function(){cb('Sin conexión con Supabase')};x.ontimeout=function(){cb('Tiempo de espera agotado')};var body={action:action};if(session)body.sessionToken=session;Object.keys(extra||{}).forEach(function(k){body[k]=extra[k]});x.send(JSON.stringify(body))}
-function refresh(){if(mode!=='live'||feedBusy)return;var r=range();if(!r)return;feedBusy=true;api('FEED',r,function(err,data){feedBusy=false;if(err){text($('notice'),'Error de actualización: '+err);if(err==='INVALID_SESSION'){session=null;mode='locked';stopFeedRefresh();lockAndAuthorize('La sesión expiró. Generando otro QR…')}return}orders=data.orders||[];render();text($('notice'),'Pedidos sincronizados desde Supabase. El Monitor no modifica pagos ni entregas.')})}
+function refresh(){if(mode!=='live'||feedBusy)return;var r=range();if(!r)return;feedBusy=true;api('FEED',r,function(err,data){feedBusy=false;if(err){text($('notice'),'Error de actualización: '+err);if(err==='INVALID_SESSION'){session=null;mode='locked';stopFeedRefresh();lockAndAuthorize('La sesión expiró. Escanea el QR o solicita uno nuevo.')}return}orders=data.orders||[];render();text($('notice'),'Pedidos sincronizados desde Supabase. El Monitor no modifica pagos ni entregas.')})}
 function drawQR(payload){
   var host=$('qrBox');
   try {
@@ -1306,7 +1399,7 @@ function drawQR(payload){
     }
     host.innerHTML='';host.appendChild(table);
     var msg=document.createElement('p');msg.style.cssText='font-size:12px;margin:10px 0 0';
-    text(msg,'QR V3 · esperando integración de autorización Android.');host.appendChild(msg);
+    text(msg,'QR V3 · escanea desde CafePostres Android.');host.appendChild(msg);
   }catch(e){text(host,'No se pudo representar el QR: '+e.message)}
 }
 var qrClockTimer=null,feedTimer=null,feedBusy=false,authBusy=false,authGeneration=0,renewTimer=null,checkBusy=false,consumeBusy=false;
@@ -1319,27 +1412,27 @@ function updateQrClock(){
  if(!challenge){text($('qrClock'),'--:--');return}
  var left=Math.max(0,Math.ceil((new Date(challenge.expiresAt).getTime()-new Date().getTime())/1000));
  text($('qrClock'),('0'+Math.floor(left/60)).slice(-2)+':'+('0'+(left%60)).slice(-2));
- if(left===0){stopQrTimers();challenge=null;text($('qrStep'),'Renovando desafío…');text($('authStatus'),'QR caducado. Renovación automática.');$('copyPayload').disabled=true;renewTimer=setTimeout(showChallenge,1200)}
+ if(left===0){stopQrTimers();challenge=null;text($('qrStep'),'Renovando desafío…');text($('authStatus'),'QR caducado. Pulsa Generar / renovar QR para crear otro.');$('qrBox').textContent='Código vencido. No se generará otro automáticamente.';$('copyPayload').disabled=true;$('makeChallenge').disabled=false}
 }
 function showChallenge(){
  if(authBusy)return;authBusy=true;var generation=++authGeneration;stopQrTimers();challenge=null;text($('qrStep'),'Generando QR…');text($('qrClock'),'--:--');
  api('CREATE',{},function(err,r){
   if(generation!==authGeneration)return;authBusy=false;
-  if(err){text($('qrStep'),'Reintentando conexión…');text($('authStatus'),'No se pudo generar QR: '+err+' · Nuevo intento en 8 segundos.');renewTimer=setTimeout(showChallenge,8000);return}
+  if(err){text($('qrStep'),'Error al generar QR');text($('authStatus'),'No se pudo generar QR: '+err+' · Pulsa Generar / renovar QR para reintentar.');return}
   challenge=r;drawQR(r.qrPayload);text($('qrStep'),'Esperando autorización');
-  text($('authStatus'),'QR generado. Escanea desde CafePostres Android. Nota: el lector V3 todavía requiere integración.');
+  text($('authStatus'),'QR generado. Escanea desde CafePostres Android.');
   $('copyPayload').disabled=false;updateQrClock();qrClockTimer=setInterval(updateQrClock,1000);
   poll=setInterval(function(){
-   if(!challenge||checkBusy||consumeBusy)return;checkBusy=true;var currentId=challenge.challengeId;
+   if(!challenge||checkBusy||consumeBusy||document.visibilityState==='hidden')return;checkBusy=true;var currentId=challenge.challengeId;
    api('STATUS',{challengeId:challenge.challengeId,browserSecret:challenge.browserSecret},function(e,st){
     checkBusy=false;if(!challenge||challenge.challengeId!==currentId)return;
     if(e){text($('authStatus'),'Consulta de estado: '+e);return}
-    if(st.status==='EXPIRED'){stopQrTimers();challenge=null;text($('qrStep'),'Renovando QR…');renewTimer=setTimeout(showChallenge,1200);return}
+    if(st.status==='EXPIRED'){stopQrTimers();challenge=null;text($('qrStep'),'QR vencido');text($('authStatus'),'Pulsa Generar / renovar QR para crear otro.');$('qrBox').textContent='Código vencido. No se generará otro automáticamente.';$('copyPayload').disabled=true;return}
     if(st.status==='WAITING'){text($('qrStep'),'Esperando autorización');return}
     if(st.status==='AUTHORIZED'){
      stopQrTimers();consumeBusy=true;text($('qrStep'),'Autorizado · creando sesión');
      api('CONSUME',{challengeId:challenge.challengeId,browserSecret:challenge.browserSecret},function(err2,c){
-      consumeBusy=false;if(err2){text($('authStatus'),'No se pudo crear la sesión: '+err2);renewTimer=setTimeout(showChallenge,3000);return}
+      consumeBusy=false;if(err2){text($('authStatus'),'No se pudo crear la sesión: '+err2+' · Pulsa Generar / renovar QR para reintentar.');challenge=null;return}
       session=c.sessionToken;challenge=null;text($('qrStep'),'Monitor autorizado');unlockMonitor();
      });
     }
@@ -1347,6 +1440,6 @@ function showChallenge(){
   },5000);
  });
 }
-$('theme').value=get('cp-v2-theme','atelier');$('background').value=get('cp-v2-bg','1');$('theme').onchange=theme;$('background').onchange=theme;theme();$('day').value=localDay();$('day').onchange=refresh;$('today').onclick=function(){$('day').value=localDay();refresh()};$('refresh').onclick=refresh;$('pendingTab').onclick=function(){tab='pending';render()};$('deliveredTab').onclick=function(){tab='delivered';render()};$('close').onclick=function(){$('overlay').className='overlay';active=null};$('overlay').onclick=function(e){if(e.target===$('overlay'))$('close').onclick()};$('makeChallenge').onclick=showChallenge;$('copyPayload').onclick=function(){if(challenge)window.prompt('Copia el texto del QR V3:',challenge.qrPayload)};lockAndAuthorize('Generando autorización temporal…');
+$('theme').value=get('cp-v2-theme','atelier');$('background').value=get('cp-v2-bg','1');$('theme').onchange=theme;$('background').onchange=theme;theme();$('day').value=localDay();$('day').onchange=refresh;$('today').onclick=function(){$('day').value=localDay();refresh()};$('refresh').onclick=refresh;$('pendingTab').onclick=function(){tab='pending';render()};$('deliveredTab').onclick=function(){tab='delivered';render()};$('previousOrder').onclick=function(){navigateOrder(-1)};$('nextOrder').onclick=function(){navigateOrder(1)};$('close').onclick=function(){$('overlay').className='overlay';active=null};$('overlay').onclick=function(e){if(e.target===$('overlay'))$('close').onclick()};$('makeChallenge').onclick=showChallenge;$('copyPayload').onclick=function(){if(challenge)window.prompt('Copia el texto del QR V3:',challenge.qrPayload)};lockAndAuthorize('Generando autorización temporal…');
 })();
 </script></body></html>
