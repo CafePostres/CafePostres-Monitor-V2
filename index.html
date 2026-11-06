@@ -62,7 +62,7 @@ html.legacySafari .overlay .modal{position:absolute;left:10%;top:8%;margin:0;wid
 html.legacySafari body:before{display:none}
 html.legacySafari body{background-position:center top;background-repeat:no-repeat;background-size:cover}
 html.legacySafari .wrap{position:relative}
-</style></head><body class="atelier"><header class="top"><div class="brand">Gaby’s · CafePostres<small>GOURMET &amp; ARTESANAL · MONITOR V3</small></div><span class="tag" id="connection">Verificando autorización…</span></header><main class="wrap"><div class="panel toolbar"><div class="field"><label for="theme">Tema visual</label><select id="theme"><option value="atelier">Atelier Gourmet</option><option value="pastel">Pastelería Contemporánea</option><option value="editorial">Café Editorial</option><option value="moderno">Dulce Moderno</option></select></div><div class="field"><label for="background">Fondo</label><select id="background"><option value="1">Diseño 1</option><option value="2">Diseño 2</option><option value="3">Diseño 3</option></select></div><div class="field"><label for="day">Fecha</label><input type="date" id="day"></div><button class="btn alt" id="today">Hoy</button><button class="btn" id="refresh">Actualizar</button></div><div class="notice" id="notice">Esperando autorización segura.</div><div class="tabs"><button id="pendingTab" class="tab active">Pendientes <span id="pc">(0)</span></button><button id="deliveredTab" class="tab">Entregados <span id="dc">(0)</span></button></div><div class="headrow"><h2 id="heading">Pedidos pendientes</h2></div><section class="panel auth" id="authPanel"><h3>Autorización del monitor · QR de un solo uso</h3><p class="muted">Escanea este QR temporal desde CafePostres Android. El código vence en 2 minutos y se renueva solo al presionar el botón.</p><div class="qr-statusline"><strong id="qrStep">Esperando nuevo desafío</strong><span id="qrClock">02:00</span></div><div class="qrbox" id="qrBox">El QR se genera localmente, sin servicios externos.</div><p class="muted" id="authStatus">Sin desafío activo.</p><button class="btn" id="makeChallenge">Generar / renovar QR</button> <button class="btn alt" id="copyPayload" disabled>Copiar texto QR</button></section><div id="orders" class="grid"></div><div class="footer">CafePostres Monitor V3 · Sin cobros ni entregas desde el iPad</div></main><div class="overlay" id="overlay"><div class="modal"><div class="modalhead"><button class="orderNav" id="previousOrder" aria-label="Pedido anterior" title="Pedido anterior">&#10094;</button><div class="modalIdentity"><h2 id="modalTitle" style="margin:0">Pedido</h2><p class="muted" id="modalSubtitle"></p></div><button class="orderNav" id="nextOrder" aria-label="Pedido siguiente" title="Pedido siguiente">&#10095;</button><button class="close" id="close" aria-label="Cerrar detalle" title="Cerrar">&#10005;</button></div><div class="preparationTop"><div class="preparationCaption"><strong>Avance del pedido</strong><span id="count" class="muted"></span></div><div class="progress"><div class="bar" id="bar"></div></div></div><div id="modalItems" class="detailGrid"></div></div></div>
+</style></head><body class="atelier"><header class="top"><div class="brand">Gaby’s · CafePostres<small>GOURMET &amp; ARTESANAL · MONITOR V4 PUSH</small></div><span class="tag" id="connection">Verificando autorización…</span></header><main class="wrap"><div class="panel toolbar"><div class="field"><label for="theme">Tema visual</label><select id="theme"><option value="atelier">Atelier Gourmet</option><option value="pastel">Pastelería Contemporánea</option><option value="editorial">Café Editorial</option><option value="moderno">Dulce Moderno</option></select></div><div class="field"><label for="background">Fondo</label><select id="background"><option value="1">Diseño 1</option><option value="2">Diseño 2</option><option value="3">Diseño 3</option></select></div><div class="field"><label for="day">Fecha</label><input type="date" id="day"></div><button class="btn alt" id="today">Hoy</button><button class="btn" id="refresh">Actualizar</button></div><div class="notice" id="notice">Esperando autorización segura.</div><div class="tabs"><button id="pendingTab" class="tab active">Pendientes <span id="pc">(0)</span></button><button id="deliveredTab" class="tab">Entregados <span id="dc">(0)</span></button></div><div class="headrow"><h2 id="heading">Pedidos pendientes</h2></div><section class="panel auth" id="authPanel"><h3>Autorización del monitor · QR de un solo uso</h3><p class="muted">Escanea este QR temporal desde CafePostres Android. El código vence en 2 minutos y se renueva solo al presionar el botón.</p><div class="qr-statusline"><strong id="qrStep">Esperando nuevo desafío</strong><span id="qrClock">02:00</span></div><div class="qrbox" id="qrBox">El QR se genera localmente, sin servicios externos.</div><p class="muted" id="authStatus">Sin desafío activo.</p><button class="btn" id="makeChallenge">Generar / renovar QR</button> <button class="btn alt" id="copyPayload" disabled>Copiar texto QR</button></section><div id="orders" class="grid"></div><div class="footer">CafePostres Monitor V4 Push · Sin cobros ni entregas desde el iPad</div></main><div class="overlay" id="overlay"><div class="modal"><div class="modalhead"><button class="orderNav" id="previousOrder" aria-label="Pedido anterior" title="Pedido anterior">&#10094;</button><div class="modalIdentity"><h2 id="modalTitle" style="margin:0">Pedido</h2><p class="muted" id="modalSubtitle"></p></div><button class="orderNav" id="nextOrder" aria-label="Pedido siguiente" title="Pedido siguiente">&#10095;</button><button class="close" id="close" aria-label="Cerrar detalle" title="Cerrar">&#10005;</button></div><div class="preparationTop"><div class="preparationCaption"><strong>Avance del pedido</strong><span id="count" class="muted"></span></div><div class="progress"><div class="bar" id="bar"></div></div></div><div id="modalItems" class="detailGrid"></div></div></div>
 <script>
 (function(g){var M={},C={};
 M["QR8bitByte.js"]=function(module,exports,__req){
@@ -1443,10 +1443,62 @@ function drawQR(payload){
 }
 var qrClockTimer=null,feedTimer=null,feedBusy=false,authBusy=false,authGeneration=0,renewTimer=null,checkBusy=false,consumeBusy=false;
 function stopQrTimers(){if(poll){clearInterval(poll);poll=null}if(qrClockTimer){clearInterval(qrClockTimer);qrClockTimer=null}if(renewTimer){clearTimeout(renewTimer);renewTimer=null}}
-function stopFeedRefresh(){if(feedTimer){clearInterval(feedTimer);feedTimer=null}}
-function startFeedRefresh(){stopFeedRefresh();refresh();feedTimer=setInterval(function(){if(mode==='live'&&document.visibilityState!=='hidden')refresh()},5000)}
+// V4 Push: el endpoint debe ser un relay WebSocket propio que valide la sesion.
+// No se abre un canal publico ni se transmite el token a un destino desconocido.
+var PUSH_RELAY_URL=''; // wss://TU-DOMINIO-SEGURO/monitor/events (requiere backend)
+var pushSocket=null,pushRetry=null,pushConnected=false,pushGeneration=0;
+var ecoDelay=20000,ecoFailures=0,ecoLastRefresh=0;
+function stopFeedRefresh(){
+ if(feedTimer){clearTimeout(feedTimer);feedTimer=null}
+ if(pushRetry){clearTimeout(pushRetry);pushRetry=null}
+ pushGeneration++;pushConnected=false;
+ if(pushSocket){try{pushSocket.close()}catch(e){}pushSocket=null}
+}
+function scheduleEco(ms){
+ if(feedTimer)clearTimeout(feedTimer);
+ if(mode!=='live'||pushConnected)return;
+ feedTimer=setTimeout(function(){
+  feedTimer=null;
+  if(mode!=='live'||pushConnected)return;
+  if(document.visibilityState==='hidden'){scheduleEco(ecoDelay);return}
+  refresh();scheduleEco(ecoDelay);
+ },ms);
+}
+function connectPush(){
+ if(!PUSH_RELAY_URL||PUSH_RELAY_URL.indexOf('wss://')!==0||!window.WebSocket||!session)return false;
+ var generation=++pushGeneration;
+ try{
+  var ws=new WebSocket(PUSH_RELAY_URL);pushSocket=ws;
+  ws.onopen=function(){if(generation!==pushGeneration)return;ws.send(JSON.stringify({type:'AUTH',sessionToken:session}));};
+  ws.onmessage=function(ev){
+   if(generation!==pushGeneration)return;
+   var msg;try{msg=JSON.parse(ev.data)}catch(e){return}
+   if(msg.type==='AUTHORIZED'){
+    pushConnected=true;if(feedTimer){clearTimeout(feedTimer);feedTimer=null}
+    text($('connection'),'Conectado · V4 Push');refresh();
+   }else if(msg.type==='ORDER_CHANGED'||msg.type==='ORDER_CREATED'||msg.type==='ORDER_UPDATED'||msg.type==='ORDER_DELIVERED'){
+    if(pushConnected)refresh();
+   }else if(msg.type==='SESSION_EXPIRED'){
+    stopFeedRefresh();lockAndAuthorize('La sesion expiro. Autoriza de nuevo el monitor.');
+   }
+  };
+  ws.onclose=ws.onerror=function(){
+   if(generation!==pushGeneration)return;
+   pushConnected=false;text($('connection'),'Conectado · respaldo Eco');
+   scheduleEco(0);
+   if(!pushRetry)pushRetry=setTimeout(function(){pushRetry=null;if(mode==='live')connectPush()},30000);
+  };
+  return true;
+ }catch(e){pushSocket=null;return false}
+}
+function startFeedRefresh(){
+ stopFeedRefresh();refresh();
+ // Sin relay instalado: modo Eco seguro, sin alterar el flujo de pedidos.
+ if(!connectPush())scheduleEco(ecoDelay);
+ else scheduleEco(ecoDelay); // respaldo hasta que el relay confirme AUTHORIZED
+}
 function lockAndAuthorize(message){stopFeedRefresh();session=null;mode='locked';orders=[];render();document.body.className=document.body.className.replace(/\bv3-live\b/g,'');$('authPanel').className='panel auth show';$('authPanel').style.display='block';$('orders').style.display='none';$('notice').style.display='none';$('connection').textContent='Autorización requerida';if(message)text($('authStatus'),message);showChallenge()}
-function unlockMonitor(){document.body.className+=' v3-live';mode='live';$('authPanel').className='panel auth';$('authPanel').style.display='none';$('orders').style.display='';$('notice').style.display='';text($('connection'),'Conectado · V3');startFeedRefresh()}
+function unlockMonitor(){document.body.className+=' v3-live';mode='live';$('authPanel').className='panel auth';$('authPanel').style.display='none';$('orders').style.display='';$('notice').style.display='';text($('connection'),'Conectado · V4');startFeedRefresh()}
 function updateQrClock(){
  if(!challenge){text($('qrClock'),'--:--');return}
  var left=Math.max(0,Math.ceil((new Date(challenge.expiresAt).getTime()-new Date().getTime())/1000));
@@ -1479,6 +1531,7 @@ function showChallenge(){
   },5000);
  });
 }
+document.addEventListener('visibilitychange',function(){if(document.visibilityState!=='hidden'&&mode==='live')refresh()});
 window.addEventListener('resize',function(){if(legacySafari&&$('overlay').className.indexOf('open')>=0)positionLegacyOverlay()});window.addEventListener('orientationchange',function(){if(legacySafari&&$('overlay').className.indexOf('open')>=0)positionLegacyOverlay()});
 $('theme').value=get('cp-v2-theme','atelier');$('background').value=get('cp-v2-bg','1');$('theme').onchange=theme;$('background').onchange=theme;theme();$('day').value=localDay();$('day').onchange=refresh;$('today').onclick=function(){$('day').value=localDay();refresh()};$('refresh').onclick=refresh;$('pendingTab').onclick=function(){tab='pending';render()};$('deliveredTab').onclick=function(){tab='delivered';render()};$('previousOrder').onclick=function(){navigateOrder(-1)};$('nextOrder').onclick=function(){navigateOrder(1)};$('close').onclick=function(){$('overlay').className='overlay';active=null};$('overlay').onclick=function(e){if(e.target===$('overlay'))$('close').onclick()};$('makeChallenge').onclick=showChallenge;$('copyPayload').onclick=function(){if(challenge)window.prompt('Copia el texto del QR V3:',challenge.qrPayload)};lockAndAuthorize('Generando autorización temporal…');
 })();
